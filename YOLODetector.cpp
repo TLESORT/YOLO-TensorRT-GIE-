@@ -26,7 +26,6 @@ using namespace nvinfer1;
 using namespace nvcaffeparser1;
 
 
-
 // stuff we know about the network and the caffe input/output blobs
 static const int INPUT_H = 448;
 static const int INPUT_W = 448;
@@ -124,19 +123,16 @@ int main(int argc, char** argv)
 {
 
 
-cv::Mat frame=cv::imread("cat.jpg",CV_LOAD_IMAGE_UNCHANGED);
+	cv::Mat frame=cv::imread("cat.jpg",CV_LOAD_IMAGE_UNCHANGED);
 
-void** mInputCPU= (void**)malloc(2*sizeof(void*));;
-cudaHostAlloc((void**)&mInputCPU[0],  3*INPUT_H*INPUT_W*sizeof(float), cudaHostAllocDefault);
+	void** mInputCPU= (void**)malloc(2*sizeof(void*));;
+	cudaHostAlloc((void**)&mInputCPU[0],  3*INPUT_H*INPUT_W*sizeof(float), cudaHostAllocDefault);
 
-	cv::Mat _mean;
-std::vector<std::vector<cv::Mat> > input_channels;
-WrapInputLayer(input_channels,(float*)mInputCPU[0]);
-Preprocess(frame, input_channels);
+	std::vector<std::vector<cv::Mat> > input_channels;
+	WrapInputLayer(input_channels,(float*)mInputCPU[0]);
+	Preprocess(frame, input_channels);
 
-
-
-// create the builder
+	// create the builder
 	IBuilder* builder = createInferBuilder(gLogger);
 	const char* prototxt="yolo_small_deploy.prototxt";
 	const char* caffemodel="yolo_small.caffemodel";

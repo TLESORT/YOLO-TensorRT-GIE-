@@ -5,16 +5,35 @@ There is issue with this implementation :  for now the output of the neural netw
 
 The ouputed result for detecting a cat is : 
 
-![Data example](cat_detection.jpg)<br />
+![Data example](Images/cat_detection.jpg)<br />
 *Example of bad detection for a cat*
 
 When the ouputed result with the very same network implemented with caffe gives : 
 
-![Data example](true_detection.jpg)<br />
+![Data example](Images/true_detection.jpg)<br />
 *True detection for a cat when the network is run with the caffe framework*
 
 
 Furthermore a very images will gives very close results. For example with a matrice of zeros the result seems to be exactly the same. 
 
-![Data example](zeros_detection.jpg)<br />
+![Data example](Images/zeros_detection.jpg)<br />
 *Outputed detection for a matrice of zeros*
+
+
+
+UPDATE :
+As pointed out by AastaLLL out https://devtalk.nvidia.com/default/topic/990426/jetson-tx1/tensorrt-yolo-inference-error/post/5087820/ the leaky relu layer was not supported by TensorRT and should be remplaced  by standard-relu+scale+eltwise to approximate it. The results with the modified prototxt (yolo_small_modified.prototxt) are the following : 
+
+The 32 bits versions of tensorRT gives very similar results to caffe results with yolov1-small :
+
+![Data example](Images/cat_detection_modified_32bits.jpg)<br />
+*Example of the 32 bits detection with modified prototxt*
+
+
+But the result of the 16 bits version of tensorRT does not gives correct detections :
+
+![Data example](Images/cat_detection_modified_16bits.jpg)<br />
+*Example of the 16 bits detection with modified prototxt*
+
+![Data example](Images/zeros_detection_modified_16bits.jpg)<br />
+*Example of the 16 bits detection with modified prototxt with a matrice of zeros*

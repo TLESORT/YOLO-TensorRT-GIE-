@@ -5,7 +5,7 @@ CFLAGS=-O2 -std=c++0x -I. -I/usr/local/cuda/include -I/home/ubuntu/opencv-3.1.0/
 LIBDIRS= -L/usr/local/cuda/lib64 -L/home/ubuntu/opencv-3.1.0/lib
 
 CVLIBS = -lopencv_highgui -lopencv_imgproc -lopencv_core -lopencv_video -lopencv_videoio -lnvcaffe_parser -lnvinfer -lopencv_features2d -lopencv_imgcodecs -lopencv_objdetect
-LDFLAGS=$(LIBDIRS) -lm -lstdc++ $(CVLIBS) -lcuda -lcublas -lcurand -lcudart -lboost_system -lVideoGrabber 
+LDFLAGS=$(LIBDIRS) -lm -lstdc++ $(CVLIBS) -lcuda -lcublas -lcurand -lcudart
 #-lgstreamer-1.0
 
 DEPS = YOLODraw.h

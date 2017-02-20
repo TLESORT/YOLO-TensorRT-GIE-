@@ -19,7 +19,7 @@
 #define NUM_CLASSES 20
 #define NUM_CELLS 7
 #define NUM_TOP_CLASSES 2
-#define THRESHOLD 0.02
+#define THRESHOLD 0.2
 #define TEXT_SCALE 0.5
 
 #define LOG_GIE "[GIE]  "

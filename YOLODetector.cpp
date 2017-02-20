@@ -32,8 +32,12 @@ static const int INPUT_W = 448;
 static const int OUTPUT_SIZE = 1470;
 const int BATCH_SIZE=1;
 
+bool mEnableFP16=true;
+bool mOverride16=false;
+
 const char* INPUT_BLOB_NAME = "data";
 const char* OUTPUT_BLOB_NAME = "result";
+
 
 
 /* Wrap the input layer of the network in separate cv::Mat objects
@@ -124,6 +128,7 @@ int main(int argc, char** argv)
 
 
 	cv::Mat frame=cv::imread("cat.jpg",CV_LOAD_IMAGE_UNCHANGED);
+	//frame=cv::Mat::zeros(448, 448, CV_32FC3);
 
 	void** mInputCPU= (void**)malloc(2*sizeof(void*));;
 	cudaHostAlloc((void**)&mInputCPU[0],  3*INPUT_H*INPUT_W*sizeof(float), cudaHostAllocDefault);
@@ -134,17 +139,28 @@ int main(int argc, char** argv)
 
 	// create the builder
 	IBuilder* builder = createInferBuilder(gLogger);
-	const char* prototxt="yolo_small_deploy.prototxt";
+	const char* prototxt="yolo_small_modified.prototxt";
 	const char* caffemodel="yolo_small.caffemodel";
 
+
+
+
+
+	mEnableFP16 = (mOverride16 == true) ? false : builder->platformHasFastFp16();
+	printf(LOG_GIE "platform %s FP16 support.\n", mEnableFP16 ? "has" : "does not have");
+	printf(LOG_GIE "loading %s %s\n", prototxt, prototxt);
+
+	nvinfer1::DataType modelDataType = mEnableFP16 ? nvinfer1::DataType::kHALF : nvinfer1::DataType::kFLOAT; // create a 16-bit model if it's natively supported
+
 	// parse the caffe model to populate the network, then set the outputs and create an engine
-	//ICudaEngine* engine = createMNISTEngine(maxBatchSize, builder, DataType::kFLOAT);
 	INetworkDefinition* network = builder->createNetwork();
 	ICaffeParser *parser = createCaffeParser();
-   	const IBlobNameToTensor *blobNameToTensor =parser->parse(prototxt,     // caffe deploy file
-                                 caffemodel,     // caffe model file
-                                 *network,              // network definition that parser populate
-                                 DataType::kFLOAT);
+	const IBlobNameToTensor *blobNameToTensor =
+				parser->parse(prototxt,		// caffe deploy file
+				caffemodel,		// caffe model file
+				*network,		// network definition that the parser will populate
+				modelDataType);
+
 
 	assert(blobNameToTensor != nullptr);
 	// the caffe file has no notion of outputs
@@ -153,6 +169,10 @@ int main(int argc, char** argv)
 	// Build the engine
 	builder->setMaxBatchSize(1);
 	builder->setMaxWorkspaceSize(16 << 20);//WORKSPACE_SIZE);
+	
+	// set up the network for paired-fp16 format
+	if(mEnableFP16)
+		builder->setHalf2Mode(true);
 
 	// Eliminate the side-effect from the delay of GPU frequency boost
 	builder->setMinFindIterations(3);
@@ -199,7 +219,6 @@ int main(int argc, char** argv)
 	context->destroy();
 	engine->destroy();
 
-// ****************************************BOXDRAWER****************************************
 	int MAX_BATCH_SIZE=1;
 	BoxDrawer boxDrawer(1);
 		
@@ -215,6 +234,6 @@ int main(int argc, char** argv)
 	boxDrawer.do_nms_sort(boxes, probs, NUM_CELLS*NUM_CELLS*NUM_TOP_CLASSES, NUM_CLASSES, (float)0.5);
 	boxDrawer.draw_detections(frame, NUM_CELLS*NUM_CELLS*NUM_TOP_CLASSES, THRESHOLD, boxes, probs, voc_names);
 
-imwrite( "cat_detection.jpg", frame );
+	imwrite( "cat_detection_modified_16bits.jpg", frame );
 	return 0;
 }

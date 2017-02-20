@@ -1,0 +1,1082 @@
+    name: "YOLONet"
+    input: "data"
+    input_shape {
+      dim: 1
+      dim: 3
+      dim: 448
+      dim: 448
+    }
+
+    layer {
+      name: "conv1"
+      type: "Convolution"
+      bottom: "data"
+      top: "conv1"
+      convolution_param {
+        num_output: 64
+        kernel_size: 7
+        pad: 3
+        stride: 2
+      }
+    }
+    layer {
+      name: "relu1"
+      type: "ReLU"
+      bottom: "conv1"
+      top: "relu1"	
+    }
+    layer {
+      name: "scale1"
+      type: "Power"
+      bottom: "conv1"
+      top: "scale1"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise1"
+      type: "Eltwise"
+      bottom: "relu1"
+      bottom: "scale1"
+      top: "layer1"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+    layer {
+      name: "pool1"
+      type: "Pooling"
+      bottom: "layer1"
+      top: "pool1"
+      pooling_param {
+        pool: MAX
+        kernel_size: 2
+        stride: 2
+      }
+    }
+
+    layer{
+      name: "conv2"
+      type: "Convolution"
+      bottom: "pool1"
+      top: "conv2"
+      convolution_param {
+        num_output: 192
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu2"
+      type: "ReLU"
+      bottom: "conv2"
+      top: "relu2"	
+    }
+    layer {
+      name: "scale2"
+      type: "Power"
+      bottom: "conv2"
+      top: "scale2"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise2"
+      type: "Eltwise"
+      bottom: "relu2"
+      bottom: "scale2"
+      top: "layer2"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+    layer {
+      name: "pool2"
+      type: "Pooling"
+      bottom: "layer2"
+      top: "pool2"
+      pooling_param {
+        pool: MAX
+        kernel_size: 2
+        stride: 2
+      }
+    }
+
+    layer{
+      name: "conv3"
+      type: "Convolution"
+      bottom: "pool2"
+      top: "conv3"
+      convolution_param {
+        num_output: 128
+        kernel_size: 1
+        pad: 0
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu3"
+      type: "ReLU"
+      bottom: "conv3"
+      top: "relu3"	
+    }
+    layer {
+      name: "scale3"
+      type: "Power"
+      bottom: "conv3"
+      top: "scale3"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise3"
+      type: "Eltwise"
+      bottom: "relu3"
+      bottom: "scale3"
+      top: "layer3"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+    layer{
+      name: "conv4"
+      type: "Convolution"
+      bottom: "layer3"
+      top: "conv4"
+      convolution_param {
+        num_output: 256
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu4"
+      type: "ReLU"
+      bottom: "conv4"
+      top: "relu4"	
+    }
+    layer {
+      name: "scale4"
+      type: "Power"
+      bottom: "conv4"
+      top: "scale4"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise4"
+      type: "Eltwise"
+      bottom: "relu4"
+      bottom: "scale4"
+      top: "layer4"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+    layer{
+      name: "conv5"
+      type: "Convolution"
+      bottom: "layer4"
+      top: "conv5"
+      convolution_param {
+        num_output: 256
+        kernel_size: 1
+        pad: 0
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu5"
+      type: "ReLU"
+      bottom: "conv5"
+      top: "relu5"	
+    }
+    layer {
+      name: "scale5"
+      type: "Power"
+      bottom: "conv5"
+      top: "scale5"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise5"
+      type: "Eltwise"
+      bottom: "relu5"
+      bottom: "scale5"
+      top: "layer5"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+    layer{
+      name: "conv6"
+      type: "Convolution"
+      bottom: "layer5"
+      top: "conv6"
+      convolution_param {
+        num_output: 512
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu6"
+      type: "ReLU"
+      bottom: "conv6"
+      top: "relu6"	
+    }
+    layer {
+      name: "scale6"
+      type: "Power"
+      bottom: "conv6"
+      top: "scale6"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise6"
+      type: "Eltwise"
+      bottom: "relu6"
+      bottom: "scale6"
+      top: "layer6"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+    layer {
+      name: "pool6"
+      type: "Pooling"
+      bottom: "layer6"
+      top: "pool6"
+      pooling_param {
+        pool: MAX
+        kernel_size: 2
+        stride: 2
+      }
+    }
+
+    layer{
+      name: "conv7"
+      type: "Convolution"
+      bottom: "pool6"
+      top: "conv7"
+      convolution_param {
+        num_output: 256
+        kernel_size: 1
+        pad: 0
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu7"
+      type: "ReLU"
+      bottom: "conv7"
+      top: "relu7"	
+    }
+    layer {
+      name: "scale7"
+      type: "Power"
+      bottom: "conv7"
+      top: "scale7"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise7"
+      type: "Eltwise"
+      bottom: "relu7"
+      bottom: "scale7"
+      top: "layer7"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+    layer{
+      name: "conv8"
+      type: "Convolution"
+      bottom: "layer7"
+      top: "conv8"
+      convolution_param {
+        num_output: 512
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu8"
+      type: "ReLU"
+      bottom: "conv8"
+      top: "relu8"	
+    }
+    layer {
+      name: "scale8"
+      type: "Power"
+      bottom: "conv8"
+      top: "scale8"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise8"
+      type: "Eltwise"
+      bottom: "relu8"
+      bottom: "scale8"
+      top: "layer8"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+    layer{
+      name: "conv9"
+      type: "Convolution"
+      bottom: "layer8"
+      top: "conv9"
+      convolution_param {
+        num_output: 256
+        kernel_size: 1
+        pad: 0
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu9"
+      type: "ReLU"
+      bottom: "conv9"
+      top: "relu9"	
+    }
+    layer {
+      name: "scale9"
+      type: "Power"
+      bottom: "conv9"
+      top: "scale9"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise9"
+      type: "Eltwise"
+      bottom: "relu9"
+      bottom: "scale9"
+      top: "layer9"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+    layer{
+      name: "conv10"
+      type: "Convolution"
+      bottom: "layer9"
+      top: "conv10"
+      convolution_param {
+        num_output: 512
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu10"
+      type: "ReLU"
+      bottom: "conv10"
+      top: "relu10"	
+    }
+    layer {
+      name: "scale10"
+      type: "Power"
+      bottom: "conv10"
+      top: "scale10"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise10"
+      type: "Eltwise"
+      bottom: "relu10"
+      bottom: "scale10"
+      top: "layer10"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+    layer{
+      name: "conv11"
+      type: "Convolution"
+      bottom: "layer10"
+      top: "conv11"
+      convolution_param {
+        num_output: 256
+        kernel_size: 1
+        pad: 0
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu11"
+      type: "ReLU"
+      bottom: "conv11"
+      top: "relu11"	
+    }
+    layer {
+      name: "scale11"
+      type: "Power"
+      bottom: "conv11"
+      top: "scale11"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise11"
+      type: "Eltwise"
+      bottom: "relu11"
+      bottom: "scale11"
+      top: "layer11"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+    layer{
+      name: "conv12"
+      type: "Convolution"
+      bottom: "layer11"
+      top: "conv12"
+      convolution_param {
+        num_output: 512
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu12"
+      type: "ReLU"
+      bottom: "conv12"
+      top: "relu12"	
+    }
+    layer {
+      name: "scale12"
+      type: "Power"
+      bottom: "conv12"
+      top: "scale12"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise12"
+      type: "Eltwise"
+      bottom: "relu12"
+      bottom: "scale12"
+      top: "layer12"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+    layer{
+      name: "conv13"
+      type: "Convolution"
+      bottom: "layer12"
+      top: "conv13"
+      convolution_param {
+        num_output: 256
+        kernel_size: 1
+        pad: 0
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu13"
+      type: "ReLU"
+      bottom: "conv13"
+      top: "relu13"	
+    }
+    layer {
+      name: "scale13"
+      type: "Power"
+      bottom: "conv13"
+      top: "scale13"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise13"
+      type: "Eltwise"
+      bottom: "relu13"
+      bottom: "scale13"
+      top: "layer13"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+    layer{
+      name: "conv14"
+      type: "Convolution"
+      bottom: "layer13"
+      top: "conv14"
+      convolution_param {
+        num_output: 512
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu14"
+      type: "ReLU"
+      bottom: "conv14"
+      top: "relu14"	
+    }
+    layer {
+      name: "scale14"
+      type: "Power"
+      bottom: "conv14"
+      top: "scale14"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise14"
+      type: "Eltwise"
+      bottom: "relu14"
+      bottom: "scale14"
+      top: "layer14"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+    layer{
+      name: "conv15"
+      type: "Convolution"
+      bottom: "layer14"
+      top: "conv15"
+      convolution_param {
+        num_output: 512
+        kernel_size: 1
+        pad: 0
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu15"
+      type: "ReLU"
+      bottom: "conv15"
+      top: "relu15"	
+    }
+    layer {
+      name: "scale15"
+      type: "Power"
+      bottom: "conv15"
+      top: "scale15"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise15"
+      type: "Eltwise"
+      bottom: "relu15"
+      bottom: "scale15"
+      top: "layer15"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+    layer{
+      name: "conv16"
+      type: "Convolution"
+      bottom: "layer15"
+      top: "conv16"
+      convolution_param {
+        num_output: 1024
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu16"
+      type: "ReLU"
+      bottom: "conv16"
+      top: "relu16"	
+    }
+    layer {
+      name: "scale16"
+      type: "Power"
+      bottom: "conv16"
+      top: "scale16"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise16"
+      type: "Eltwise"
+      bottom: "relu16"
+      bottom: "scale16"
+      top: "layer16"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+    layer {
+      name: "pool16"
+      type: "Pooling"
+      bottom: "layer16"
+      top: "pool16"
+      pooling_param {
+        pool: MAX
+        kernel_size: 2
+        stride: 2
+      }
+    }
+
+
+    layer{
+      name: "conv17"
+      type: "Convolution"
+      bottom: "pool16"
+      top: "conv17"
+      convolution_param {
+        num_output: 512
+        kernel_size: 1
+        pad: 0
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu17"
+      type: "ReLU"
+      bottom: "conv17"
+      top: "relu17"	
+    }
+    layer {
+      name: "scale17"
+      type: "Power"
+      bottom: "conv17"
+      top: "scale17"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise17"
+      type: "Eltwise"
+      bottom: "relu17"
+      bottom: "scale17"
+      top: "layer17"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+    layer{
+      name: "conv18"
+      type: "Convolution"
+      bottom: "layer17"
+      top: "conv18"
+      convolution_param {
+        num_output: 1024
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu18"
+      type: "ReLU"
+      bottom: "conv18"
+      top: "relu18"	
+    }
+    layer {
+      name: "scale18"
+      type: "Power"
+      bottom: "conv18"
+      top: "scale18"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise18"
+      type: "Eltwise"
+      bottom: "relu18"
+      bottom: "scale18"
+      top: "layer18"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+    layer{
+      name: "conv19"
+      type: "Convolution"
+      bottom: "layer18"
+      top: "conv19"
+      convolution_param {
+        num_output: 512
+        kernel_size: 1
+        pad: 0
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu19"
+      type: "ReLU"
+      bottom: "conv19"
+      top: "relu19"	
+    }
+    layer {
+      name: "scale19"
+      type: "Power"
+      bottom: "conv19"
+      top: "scale19"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise19"
+      type: "Eltwise"
+      bottom: "relu19"
+      bottom: "scale19"
+      top: "layer19"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+
+    layer{
+      name: "conv20"
+      type: "Convolution"
+      bottom: "layer19"
+      top: "conv20"
+      convolution_param {
+        num_output: 1024
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu20"
+      type: "ReLU"
+      bottom: "conv20"
+      top: "relu20"	
+    }
+    layer {
+      name: "scale20"
+      type: "Power"
+      bottom: "conv20"
+      top: "scale20"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise20"
+      type: "Eltwise"
+      bottom: "relu20"
+      bottom: "scale20"
+      top: "layer20"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+    layer{
+      name: "conv21"
+      type: "Convolution"
+      bottom: "layer20"
+      top: "conv21"
+      convolution_param {
+        num_output: 1024
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu21"
+      type: "ReLU"
+      bottom: "conv21"
+      top: "relu21"	
+    }
+    layer {
+      name: "scale21"
+      type: "Power"
+      bottom: "conv21"
+      top: "scale21"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise21"
+      type: "Eltwise"
+      bottom: "relu21"
+      bottom: "scale21"
+      top: "layer21"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+    layer{
+      name: "conv22"
+      type: "Convolution"
+      bottom: "layer21"
+      top: "conv22"
+      convolution_param {
+        num_output: 1024
+        kernel_size: 3
+        pad: 1
+        stride: 2
+      }
+    }
+    layer {
+      name: "relu22"
+      type: "ReLU"
+      bottom: "conv22"
+      top: "relu22"	
+    }
+    layer {
+      name: "scale22"
+      type: "Power"
+      bottom: "conv22"
+      top: "scale22"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise22"
+      type: "Eltwise"
+      bottom: "relu22"
+      bottom: "scale22"
+      top: "layer22"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+    layer{
+      name: "conv23"
+      type: "Convolution"
+      bottom: "layer22"
+      top: "conv23"
+      convolution_param {
+        num_output: 1024
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu23"
+      type: "ReLU"
+      bottom: "conv23"
+      top: "relu23"	
+    }
+    layer {
+      name: "scale23"
+      type: "Power"
+      bottom: "conv23"
+      top: "scale23"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise23"
+      type: "Eltwise"
+      bottom: "relu23"
+      bottom: "scale23"
+      top: "layer23"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+    layer{
+      name: "conv24"
+      type: "Convolution"
+      bottom: "layer23"
+      top: "conv24"
+      convolution_param {
+        num_output: 1024
+        kernel_size: 3
+        pad: 1
+        stride: 1
+      }
+    }
+    layer {
+      name: "relu24"
+      type: "ReLU"
+      bottom: "conv24"
+      top: "relu24"	
+    }
+    layer {
+      name: "scale24"
+      type: "Power"
+      bottom: "conv24"
+      top: "scale24"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise24"
+      type: "Eltwise"
+      bottom: "relu24"
+      bottom: "scale24"
+      top: "layer24"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+
+
+    layer{
+      name: "fc25"
+      type: "InnerProduct"
+      bottom: "layer24"
+      top: "fc25"
+      inner_product_param {
+        num_output: 512
+      }
+    }
+    layer {
+      name: "relu25"
+      type: "ReLU"
+      bottom: "fc25"
+      top: "relu25"	
+    }
+    layer {
+      name: "scale25"
+      type: "Power"
+      bottom: "fc25"
+      top: "scale25"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise25"
+      type: "Eltwise"
+      bottom: "relu25"
+      bottom: "scale25"
+      top: "layer25"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+    layer{
+      name: "fc26"
+      type: "InnerProduct"
+      bottom: "layer25"
+      top: "fc26"
+      inner_product_param {
+        num_output: 4096
+      }
+    }
+    layer {
+      name: "relu26"
+      type: "ReLU"
+      bottom: "fc26"
+      top: "relu26"	
+    }
+    layer {
+      name: "scale26"
+      type: "Power"
+      bottom: "fc26"
+      top: "scale26"
+      power_param {
+        scale: 0.08
+      }
+    }
+
+    layer {
+      name: "eltwise26"
+      type: "Eltwise"
+      bottom: "relu26"
+      bottom: "scale26"
+      top: "layer26"
+      eltwise_param {
+        operation: SUM
+      }
+    }
+
+
+    layer{
+      name: "fc27"
+      type: "InnerProduct"
+      bottom: "layer26"
+      top: "result"
+      inner_product_param {
+        num_output: 1470
+      }
+    }

@@ -1,4 +1,4 @@
-n# Project YOLO-TensorRT-GIE
+# Project YOLO-TensorRT-GIE
 This code is an implementation of trained YOLO neural network used with the TensorRT framework.  (YOLO : "You Only Look Once: Unified, Real-Time Object Detection" by Joseph Redmon, Santosh Divvala, Ross Girshick, Ali Farhadi).
 
 There is issue with this implementation :  for now the output of the neural network isn't good and I am currently searching for the solution if you have any idea don't hesitate to create an issue.
@@ -20,7 +20,8 @@ Furthermore a different images will gives very close results. For example with a
 *Outputed detection for a matrice of zeros*
 
 
-UPDATE :
+# UPDATE :
+
 As pointed out by AastaLLL at https://devtalk.nvidia.com/default/topic/990426/jetson-tx1/tensorrt-yolo-inference-error/post/5087820/ the leaky relu layer was not supported by TensorRT and should be remplaced  by standard-relu+scale+eltwise to approximate it. The results with the modified prototxt (yolo_small_modified.prototxt) are the following : 
 
 The 32 bits versions of tensorRT gives similar results to caffe results with yolov1-small.

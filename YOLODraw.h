@@ -1,12 +1,9 @@
 #ifndef CAFFE_BOX_DRAW_H
 #define CAFFE_BOX_DRAW_H
 
-//#include <caffe/caffe.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-//#include <opencv2/videoio.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <VideoGrabber/CVideoGrabber>
 #include <algorithm>
 #include <iosfwd>
 #include <memory>

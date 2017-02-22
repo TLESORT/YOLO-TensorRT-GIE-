@@ -32,7 +32,7 @@ static const int INPUT_W = 448;
 static const int OUTPUT_SIZE = 1470;
 const int BATCH_SIZE=1;
 
-bool mEnableFP16=true;
+bool mEnableFP16=false;
 bool mOverride16=false;
 
 const char* INPUT_BLOB_NAME = "data";
@@ -127,7 +127,7 @@ int main(int argc, char** argv)
 {
 
 
-	cv::Mat frame=cv::imread("cat.jpg",CV_LOAD_IMAGE_UNCHANGED);
+	cv::Mat frame=cv::imread("Images/cat.jpg",CV_LOAD_IMAGE_UNCHANGED);
 	//frame=cv::Mat::zeros(448, 448, CV_32FC3);
 
 	void** mInputCPU= (void**)malloc(2*sizeof(void*));;
@@ -234,6 +234,6 @@ int main(int argc, char** argv)
 	boxDrawer.do_nms_sort(boxes, probs, NUM_CELLS*NUM_CELLS*NUM_TOP_CLASSES, NUM_CLASSES, (float)0.5);
 	boxDrawer.draw_detections(frame, NUM_CELLS*NUM_CELLS*NUM_TOP_CLASSES, THRESHOLD, boxes, probs, voc_names);
 
-	imwrite( "cat_detection_modified_16bits.jpg", frame );
+	imwrite( "cat_detection.jpg", frame );
 	return 0;
 }
